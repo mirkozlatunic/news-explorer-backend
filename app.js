@@ -5,9 +5,10 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { errors } = require("celebrate");
+const { DATABASE_URL } = require("./utils/config");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { errorHandler } = require("./middlewares/error-handler");
-const { NotFoundError } = require("./utils/errors");
+const { NotFoundError } = require("./utils/not-found");
 const {
   createUserValidation,
   createLoginAuthenticationValidation,
@@ -19,9 +20,7 @@ const articleRoutes = require("./routes/article");
 const { createUser, login } = require("./controllers/users");
 
 const { PORT = 3001 } = process.env;
-const DATABASE_URL =
-  process.env.DATABASE_URL || "mongodb://127.0.0.1:27017/news_explorer";
-//   "mongodb://127.0.0.1:27017/final_project HvXucd1wPrh4uCgT"
+
 const server = express();
 server.use(helmet());
 server.use(cookieParser());
@@ -35,6 +34,8 @@ mongoose.connect(
 server.use(express.json());
 server.use(cors());
 server.use(requestLogger);
+
+server.use(limiter);
 
 server.use("/users", limiter, userRoutes);
 server.use("/articles", limiter, articleRoutes);

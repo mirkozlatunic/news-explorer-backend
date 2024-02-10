@@ -6,7 +6,7 @@ const {
 } = require("../utils/errors");
 
 const createArticle = (req, res, next) => {
-  const { keyword, title, text, date, source, author, link, image } = req.body;
+  const { keyword, title, text, date, source, link, image } = req.body;
   console.log(req.user);
   Article.create({
     keyword,
@@ -14,7 +14,6 @@ const createArticle = (req, res, next) => {
     text,
     date,
     source,
-    author,
     link,
     image,
     owner: req.user._id,

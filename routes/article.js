@@ -11,7 +11,7 @@ const { createArticle, deleteArticle } = require("../controllers/articles");
 const { getSavedArticles } = require("../controllers/savedArticle");
 
 router.get("/", authorize, getSavedArticles);
-router.post("/", createArticleValidation, authorize, createArticle);
-router.delete("/:articleId", idValidation, authorize, deleteArticle);
+router.post("/", authorize, createArticleValidation, createArticle);
+router.delete("/:articleId", authorize, idValidation, deleteArticle);
 
 module.exports = router;

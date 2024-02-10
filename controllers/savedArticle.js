@@ -1,6 +1,6 @@
 const Article = require("../models/article");
 
-const { BadRequestError } = require("../utils/errors");
+const { BadRequestError } = require("../utils/bad-request");
 
 const getSavedArticles = (req, res, next) => {
   console.log(req.user);
