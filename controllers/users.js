@@ -7,6 +7,10 @@ const BadRequestError = require("../utils/bad-request");
 const UnauthorizedError = require("../utils/unauthorized");
 const NotFoundError = require("../utils/not-found");
 const ConflictError = require("../utils/conflict");
+const {
+  DUPLICATE_EMAIL_ERROR_MESSAGE,
+  INVALID_DATA_ERROR_MESSAGE,
+} = require("../utils/constants");
 
 const createUser = (req, res, next) => {
   console.log({ body: req.body });
@@ -19,7 +23,7 @@ const createUser = (req, res, next) => {
       }
       if (user) {
         // name or user
-        throw new Error("Email already exists!");
+        throw new Error(DUPLICATE_EMAIL_ERROR_MESSAGE);
       }
       return bcrypt.hash(password, 10);
     })
@@ -35,7 +39,7 @@ const createUser = (req, res, next) => {
         .catch((err) => {
           console.error(err);
           if (err.name === "ValidationError") {
-            next(new BadRequestError("Invalid data!"));
+            next(new BadRequestError(INVALID_DATA_ERROR_MESSAGE));
           }
           next(err);
         });
@@ -43,7 +47,7 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       console.error(err);
       if (err.message === "Email already exists!") {
-        next(new ConflictError("Email already exists!"));
+        next(new ConflictError(DUPLICATE_EMAIL_ERROR_MESSAGE));
       } else {
         next(err);
       }

@@ -8,16 +8,8 @@ const { errors } = require("celebrate");
 const { DATABASE_URL } = require("./utils/config");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { errorHandler } = require("./middlewares/error-handler");
-const { NotFoundError } = require("./utils/not-found");
-const {
-  createUserValidation,
-  createLoginAuthenticationValidation,
-} = require("./middlewares/validation");
-const limiter = require("./rateLimiter");
 
-const userRoutes = require("./routes/user");
-const articleRoutes = require("./routes/article");
-const { createUser, login } = require("./controllers/users");
+const limiter = require("./rateLimiter");
 
 const { PORT = 3001 } = process.env;
 
@@ -31,22 +23,17 @@ mongoose.connect(
   },
   (e) => console.log("DB error", e),
 );
+
+const routes = require("./routes");
+
 server.use(express.json());
 server.use(cors());
 server.use(requestLogger);
 
 server.use(limiter);
 
-server.use("/users", limiter, userRoutes);
-server.use("/articles", limiter, articleRoutes);
-server.post("/signup", createUserValidation, createUser);
-server.post("/signin", createLoginAuthenticationValidation, login);
-
-server.use((req, res, next) => {
-  next(new NotFoundError(`Route ${req.url} not found!`));
-});
-
 server.use(errorLogger);
+server.use(routes);
 server.use(errors());
 server.use(errorHandler);
 
