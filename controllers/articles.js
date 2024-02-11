@@ -1,12 +1,11 @@
 const Article = require("../models/article");
-const {
-  BadRequestError,
-  ForbiddenError,
-  NotFoundError,
-} = require("../utils/errors");
+const BadRequestError = require("../utils/bad-request");
+const NotFoundError = require("../utils/not-found");
+const ForbiddenError = require("../utils/forbidden");
+const { INVALID_ID_ERROR_MESSAGE } = require("../utils/constants");
 
 const createArticle = (req, res, next) => {
-  const { keyword, title, text, date, source, author, link, image } = req.body;
+  const { keyword, title, text, date, source, link, image } = req.body;
   console.log(req.user);
   Article.create({
     keyword,
@@ -14,7 +13,6 @@ const createArticle = (req, res, next) => {
     text,
     date,
     source,
-    author,
     link,
     image,
     owner: req.user._id,
@@ -25,10 +23,10 @@ const createArticle = (req, res, next) => {
     .catch((err) => {
       console.error(err, err.name, err.message);
       if (err.name === "CastError") {
-        next(new BadRequestError("Invalid ID!"));
+        next(new BadRequestError(INVALID_ID_ERROR_MESSAGE));
       }
       if (err.name === "ValidationError") {
-        next(new BadRequestError("Invalid ID!"));
+        next(new BadRequestError(INVALID_ID_ERROR_MESSAGE));
       }
       next(err);
     });
@@ -52,7 +50,7 @@ const deleteArticle = (req, res, next) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        next(new BadRequestError("Invalid ID!"));
+        next(new BadRequestError(INVALID_ID_ERROR_MESSAGE));
       }
       if (err.message === "Item id is not found.") {
         next(new NotFoundError("Id is not found in the database!"));

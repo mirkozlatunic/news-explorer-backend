@@ -61,9 +61,6 @@ const createArticleValidation = celebrate({
     source: Joi.string().required().messages({
       "string.empty": "The 'source' field must be filled in",
     }),
-    author: Joi.string().required().messages({
-      "string.empty": "The 'author' field must be filled in",
-    }),
     link: Joi.string().custom(validateURL).required().messages({
       "string.empty": "The 'link' field must be filled in",
       "string.uri": "The 'link' field must be a valid url",

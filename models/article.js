@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const { VALID_URL_VALIDATE_MESSAGE } = require("../utils/constants");
 
 const articleSchema = new mongoose.Schema({
   keyword: {
@@ -22,10 +23,6 @@ const articleSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  author: {
-    type: String,
-    required: true,
-  },
   link: {
     type: String,
     required: true,
@@ -33,7 +30,7 @@ const articleSchema = new mongoose.Schema({
       validator(value) {
         return validator.isURL(value);
       },
-      message: "You must enter a valid URL",
+      message: VALID_URL_VALIDATE_MESSAGE,
     },
   },
   image: {
@@ -43,7 +40,7 @@ const articleSchema = new mongoose.Schema({
       validator(value) {
         return validator.isURL(value);
       },
-      message: "You must enter a valid URL",
+      message: VALID_URL_VALIDATE_MESSAGE,
     },
   },
   owner: {
