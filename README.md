@@ -51,7 +51,7 @@ Before committing your code, make sure you edit the file `sprint.txt` in the roo
 
 ## Domain Name:
 
-- [Domain Name](www.news-explorer.jumpingcrab.com), news-explorer.jumpingcrab.com
+- [Domain Name](www.news-explorer.jumpingcrab.com): news-explorer.jumpingcrab.com
 - [Domain Link](api.news-explorer.jumpingcrab.com)
 
 **Created By [Mirko Zlatunic](https://github.com/mirkozlatunic)**
